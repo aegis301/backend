@@ -1,13 +1,17 @@
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from .routes.data import router as DataRouter
-from dotenv import load_dotenv
 import os
 
-load_dotenv()
+from .db import SQLALCHEMY_DATABASE_URL
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI
+
+from .routes.vitalsign import router as VitalsignRouter
+from fastapi_sqlalchemy import DBSessionMiddleware
+from fastapi_sqlalchemy import db
+
+
 app = FastAPI()
 
-app.include_router(DataRouter, tags=["Data"], prefix="/data")
+app.include_router(VitalsignRouter, tags=["Data"], prefix="/data")
 
 origins = ["http://localhost:3000", "localhost:3000", "https://localhost:3000"]
 
@@ -18,6 +22,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.add_middleware(DBSessionMiddleware, db_url=SQLALCHEMY_DATABASE_URL)
 
 
 @app.get("/", tags=["root"])
