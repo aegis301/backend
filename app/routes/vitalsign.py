@@ -10,12 +10,9 @@ router = APIRouter()
 headers = {"Access-Control-Allow-Origin": "*"}
 
 
-@router.get(
-    "/data/{patient_id}/{item_id}", tags=["Data"], response_description="Data retrieved"
-)
-async def get_data(stay_id: str):
+@router.get("/{stay_id}", tags=["Data"], response_description="Data retrieved")
+async def get_data(stay_id: int):
     data_dict = await get_vitalsign(stay_id, db)
-    print(data_dict)
     if data_dict:
         return ResponseModel(data_dict, "Data retrieved successfully", headers=headers)
     return ErrorResponseModel("An error occurred.", 404, "Data doesn't exist.")

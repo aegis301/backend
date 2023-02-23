@@ -11,7 +11,7 @@ from fastapi_sqlalchemy import db
 
 app = FastAPI()
 
-app.include_router(VitalsignRouter, tags=["Data"], prefix="/data")
+app.include_router(VitalsignRouter, tags=["Data"], prefix="/vitalsigns")
 
 origins = ["http://localhost:3000", "localhost:3000", "https://localhost:3000"]
 
