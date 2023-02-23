@@ -6,8 +6,6 @@ from sqlalchemy.orm import Session
 async def get_vitalsign(stay_id: int, db: Session):
     """Get data from database"""
     data = db.session.query(Vitalsign).filter(Vitalsign.stay_id == stay_id).all()
-    for d in data:
-        print(d.__dict__)
     if data:
         return vitalsign_helper(data)
     else:
